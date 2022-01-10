@@ -1,0 +1,107 @@
+﻿@model TicketBuildModel;
+
+<style>
+
+    #total-container {
+        width: 75%;
+        height: 36%;
+        top: 30%;
+        left: 20%;
+        border: 1px solid black;
+        background-color: #073b4c;
+        position: fixed;
+    }
+
+    .ticket-info{
+        width: 95%;
+        height: 40%;
+        position: relative;
+        margin: auto;
+        margin-top: 5%;
+        background-color: transparent;
+        border: 1px solid black;
+    }
+
+    .ticket-info-filter{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: saturate(60%) brightness(140%);
+    }
+
+    .attribute-box {
+        width: 15%;
+        height: 25%;
+        border: 1px solid white;
+        background-color: transparent;
+        position: relative;
+        text-align: center;
+        overflow-x: hidden;
+        line-height: 100%;
+        color: white;
+        font-family: Courier New, Courier, monospace;
+        overflow-y: auto;
+    }
+    .attribute-box::-webkit-scrollbar{
+        display: none;
+    }
+
+
+</style>
+
+<html>
+<body>
+    <div id="main-container">
+        <div id="total-container">
+            <form class="ticket-info">
+                <div class="ticket-info-filter"></div>
+                <div class="attribute-box" style="left: 2%; top: 15%">@(Model.ticketModel.Name)</div>
+                <div class="attribute-box" style="left: 2%; top: 35%">@(Model.ticketModel.Priority)</div>
+                <div class="attribute-box" style="left: 19%; top: -35%">@(Model.ticketModel.Progress)</div>
+                <div class="attribute-box" style="left: 19%; top: -15%">@(Model.ticketModel.Type)</div>
+
+                <div class="attribute-box" style="left: 36%; top: -85%; height: 70%; width: 45%">@(Model.ticketModel.Description)</div>
+
+                <div class="attribute-box" style="float: right; right: 2%; top: -155%">@(Model.ticketModel.UserName)</div>
+                <div class="attribute-box" style="float: right; left: 13%; top: -110%">@(Model.ticketModel.Date)</div>
+            </form>
+
+            <form asp-action="ConfirmFinish" style="position: absolute; height: 10%; width: 100%; margin-top: 2%">
+                <input type="hidden" name="ticketModel.Name" value="@(Model.ticketModel.Name)" />
+                <input type="hidden" name="ticketModel.Description" value="@(Model.ticketModel.Description)" />
+                <input type="hidden" name="ticketModel.Priority" value="@(Model.ticketModel.Priority)" />
+                <input type="hidden" name="ticketModel.Type" value="@(Model.ticketModel.Type)" />
+                <input type="hidden" name="ticketModel.Progress" value="@(Model.ticketModel.Progress)" />
+                <input type="hidden" name="ticketModel.UserName" value="@(Model.ticketModel.UserName)" />
+                <input type="hidden" name="ticketModel.ProjectTitle" value="@(Model.ticketModel.ProjectTitle)" />
+                <input type="hidden" name="ticketModel.Date" value="@(Model.ticketModel.Date)" />
+                <input type="hidden" name="userModel.UserName" value="@(Model.userModel.UserName)" />
+                <button type="submit" class="submit-button" name="Confirmed" value="true" style="position: absolute; width: 10%; height: 120%; left: 30%">Confirm</button>
+                <button type="submit" class="submit-button" name="Confirmed" value="false" style="position: absolute; width: 10%; height: 120%; left: 60%">Cancel</button>
+            </form>
+
+        </div>
+
+        <div id="side-panel">
+            <h1 class="page-header">Ticket Finish</h1>
+            <p style="position: absolute; top: -5%; left: 5%; ">Welcome, @(Model.userModel.UserName)</p>
+            <form asp-action="Index">
+                <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+                <button type="submit">Home</button>
+            </form>
+            <form asp-action="ProjectBuild">
+                <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+                <button type="submit">Project Build</button>
+            </form>
+            <form asp-action="TicketView">
+                <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+                <button type="submit">View Tickets</button>
+            </form>
+            <form asp-action="ProjectView">
+                <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+                <button type="submit">View Projects</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

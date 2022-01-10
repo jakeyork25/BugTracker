@@ -1,0 +1,281 @@
+﻿@model TicketDetailModel
+
+<style>
+    #info-container {
+        background-color: #073b4c;
+        width: 35%;
+        height: 84%;
+        position: absolute;
+        margin-top: 6%;
+        margin-left: 8%;
+    }
+
+    .attribute-container{
+        width: 40%;
+        height: 12%;
+        position: absolute;
+    }
+
+    .attribute-box {
+        width: 100%;
+        height: 40%;
+        position: absolute;
+        top: 35%;
+        border: 1px solid white;
+        background-color: transparent;
+        text-align: center;
+        overflow-y: auto;
+        color: white;
+        font-family: Courier New, Courier, monospace;
+    }
+    .attribute-box::-webkit-scrollbar{
+        display: none;
+    }
+
+    #note-container {
+        background-color: #073b4c;
+        width: 40%;
+        height: 84%;
+        position: absolute;
+        margin-top: 6%;
+        margin-left: 50%;
+    }
+
+    .note-display{
+        height: 50%;
+        width: 90%;
+        border: 1px solid black;
+        background-color: transparent;
+        position: absolute;
+        margin-left: 5%;
+        margin-top: 5%;
+        overflow-y: auto;
+    }
+    .note-display::-webkit-scrollbar-thumb{
+        color: black;
+        border-radius: 8px;
+    }
+    .note-display::-webkit-scrollbar-track{
+        background: rgb(30, 30, 30);
+    }
+
+    .note-display-filter{
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        backdrop-filter: saturate(60%) brightness(140%);
+    }
+
+    .note-info {
+        width: 95%;
+        height: 35%;
+        position: relative;
+        margin: auto;
+        margin-top: 5%;
+        background-color: #073b4c;
+        border: 1px solid white;
+    }
+
+    .description-container {
+        color: white;
+        font-family: Courier New, Courier, monospace;
+        color: white;
+        position: absolute;
+        width: 60%;
+        height: 100%;
+        left: 40%;
+        border-left: 1px solid white;
+        overflow-y: auto;
+        padding: 2%;
+    }
+
+    .description-container::-webkit-scrollbar-thumb{
+        border-radius: 8px;
+        color: black;
+    }
+    .description-container::-webkit-scrollbar-track{
+        background: rgb(30, 30, 30);
+    }
+
+    .note-creator{
+        height: 35%;
+        width: 90%;
+        border: 1px solid black;
+        background-color: transparent;
+        overflow-y: auto;
+        position: absolute;
+        left: 5%;
+        top: 60%;      
+    }
+    .note-creator-filter {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: saturate(60%) brightness(140%);
+    }
+
+    label {
+        font-family: Courier New, Courier, monospace;
+        color: white;
+    }
+
+    p {
+        font-family: Courier New, Courier, monospace;
+        color: white;
+        position: absolute;
+        left: 2%;
+    }
+
+    .delete-button {
+        border: none;
+        outline: none;
+        width: 25%;
+        height: 25%;
+        background-color: darkred;
+        filter: saturate(70%);
+        color: black;
+        position: absolute;
+        top: 80%;
+        left: 2%;
+        transform: translateY(-50%);
+        animation-duration: 0.5s;
+        animation-name: unfocus-button;
+        animation-fill-mode: forwards;
+        font-family: Courier New, Courier, monospace;
+    }
+
+    @@keyframes unfocus-button {
+        from {
+            border-radius: 12px;
+            color: white;
+            filter: saturate(100%);
+        }
+
+        to {
+            border-radius: 0px;
+            color: black;
+            filter: saturate(70%);
+        }
+    }
+
+    .delete-button:hover {
+        border: none;
+        outline: none;
+        animation-duration: 1s;
+        animation-name: focus-button;
+        animation-fill-mode: forwards;
+    }
+
+    @@keyframes focus-button {
+        from {
+            border-radius: 0px;
+            color: black;
+            filter: saturate(70%);
+        }
+
+        to {
+            border-radius: 12px;
+            color: white;
+            filter: saturate(100%);
+        }
+    }
+
+    .delete-button:focus {
+        border: none;
+        outline: none;
+    }
+
+
+</style>
+
+<html>
+<body>
+    <div id="main-container">
+        <div id="info-container">
+            <div class="attribute-box" style="height: 25%; width: 90%; left: 5%; top: 70%; position: absolute;">@Model.ticketModel.Description</div>
+            <div class="attribute-container" style="left: 30%; top: 5%">
+                <label for="name">Name</label>
+                <div name="name" class="attribute-box">@Model.ticketModel.Name</div>
+            </div>
+            <div class="attribute-container" style="left: 4%; top: 18%">
+                <label for="project">Project</label>
+                <div name="project" class="attribute-box">@Model.ticketModel.ProjectTitle</div>
+            </div>
+            <div class="attribute-container" style="left: 56%; top: 18%">
+                <label for="priority">Priority</label>
+                <div name="priority" class="attribute-box">@Model.ticketModel.Priority</div>
+            </div>
+            <div class="attribute-container" style="left: 4%; top: 31%;">
+                <label for="type">Type</label>
+                <div name="type" class="attribute-box">@Model.ticketModel.Type</div>
+            </div>
+            <div class="attribute-container" style="left: 56%; top: 31%">
+                <label for="progress">Progress</label>
+                <div class="attribute-box">@Model.ticketModel.Progress</div>
+            </div>
+            <div class="attribute-container" style="left: 4%; top: 44%">
+                <label for="username">User</label>
+                <div class="attribute-box">@Model.ticketModel.UserName</div>
+            </div>
+            <div class="attribute-container" style="left: 56%; top: 44%">
+                <label for="date">Submission Time</label>
+                <div class="attribute-box">@Model.ticketModel.Date</div>
+            </div>
+
+        </div>
+
+        <div id="note-container">
+            <div class="note-display">
+                <div class="note-display-filter"></div>
+                @foreach (var note in Model.noteList)
+                {
+                    <form class="note-info" asp-action="DeleteNote">
+                        <input type="hidden" name="noteModel.Title" value="@note.Title" />
+                        <input type="hidden" name="noteModel.Description" value="@note.Description" />
+                        <input type="hidden" name="noteModel.Ticket" value="@note.Ticket" />
+                        <input type="hidden" name="noteModel.UserName" value="@note.UserName" />
+                        <input type="hidden" name="userModel.UserName" value="@Model.userModel.UserName" />
+                        <p style="top: 20%; transform: translateY(-50%)">@note.Title</p>
+                        <p style="top: 45%; transform: translateY(-50%)">@note.UserName</p>
+                        <p class="description-container">@note.Description</p>
+                        <button class="delete-button">Delete</button>
+                    </form>
+                }
+
+            </div>
+            <form class="note-creator" asp-action="CreateNote">
+                <div class="note-creator-filter"></div>
+                <p style="top: 5%; left: 50%; transform: translateX(-50%)">Create a Ticket</p>
+                <input asp-for="noteModel.Title" type="text" style="position: absolute; top: 20%; left: 5%; width: 35%" />
+                <textarea asp-for="noteModel.Description" style="resize: none; font-family: Courier New, Courier, monospace; position: absolute; height: 70%; width: 45%; left: 50%; top: 20%"></textarea>
+                <input type="hidden" name="noteModel.Ticket" value="@Model.ticketModel.Name" />
+                <input type="hidden" name="noteModel.UserName" value="@Model.ticketModel.UserName" />
+                <button class="submit-button" type="submit" style="width: 35%; height: 15%; top: 80%; left: 5%">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="side-panel">
+        <h1 class="page-header">Ticket Notes</h1>
+        <p style="position: absolute; top: -5%; left: 5%; ">Welcome, @(Model.userModel.UserName)</p>
+        <form asp-action="Index">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">Home</button>
+        </form>
+        <form asp-action="ProjectBuild">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">Project Build</button>
+        </form>
+        <form asp-action="TicketView">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">View Tickets</button>
+        </form>
+        <form asp-action="ProjectView">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">View Projects</button>
+        </form>
+    </div>
+
+
+</body>
+</html>

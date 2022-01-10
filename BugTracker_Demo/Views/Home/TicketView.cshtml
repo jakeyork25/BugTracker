@@ -1,0 +1,194 @@
+﻿@model TicketViewModel
+
+<!DOCTYPE html>
+<style>
+
+    #total-container {
+        width: 90%;
+        height: 85%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #073b4c;
+        position: absolute;
+    }
+
+    #dropdown-container {
+        width: 100%;
+        height: 12%;
+        position: absolute;
+    }
+
+    .dropdown-filter{
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        backdrop-filter: saturate(80%) brightness(80%);
+    }
+
+    #scroll-container {
+        width: 100%;
+        height: 88%;
+        position: absolute;
+        top: 12%;
+        overflow-y: auto;
+    }
+
+    .ticket-info {
+        width: 90%;
+        height: 20%;
+        position: relative;
+        margin: auto;
+        margin-top: 5%;
+        backdrop-filter: saturate(60%) brightness(140%);
+        border: 1px solid black;
+    }
+    ::-webkit-scrollbar{
+        width: 8px;
+    }
+    ::-webkit-scrollbar-thumb{
+        background: black;
+    }
+
+    .attribute-box {
+        width: 15%;
+        height: 25%;
+        border: 1px solid white;
+        background-color: transparent;
+        color: white;
+        font-family: Courier New, Courier, monospace;
+        position: relative;
+        text-align: center;
+        overflow-y: auto;
+        line-height: 100%;
+    }
+
+    .attribute-box::-webkit-scrollbar{
+        display: none;
+    }
+
+    .detail-buttons{
+        color: white;
+        border-radius: 6px;
+        filter: saturate(75%);
+        border: 1px solid black;
+    }
+        .detail-buttons:hover{
+            filter: saturate(100%);
+        }
+
+    select {
+        border: none;
+        outline: none;
+        border: 1px solid white;
+        font-family: Courier New, Courier, monospace;
+        color: white;
+        background-color: transparent;
+    }
+
+        select option {
+            font-family: Courier New, Courier, monospace;
+            color: white;
+            background-color: #073b4c;
+        }
+
+    .text-input {
+        border: 1px solid white;
+        color: white;
+        background-color: transparent;
+        font-family: Courier New, Courier, monospace;
+    }
+
+        .text-input:focus {
+            border: none;
+            outline: none;
+            border: 1px solid white;
+        }
+</style>
+
+<html>
+<body>
+
+    <div id="main-container">
+        <div id="total-container">
+            <form id="dropdown-container" asp-action="SearchTickets">
+                <div class="dropdown-filter"></div>
+                <select name="searchModel.type" style="position: absolute; top: 50%; left: 12%; transform: translate(-50%, -50%)">
+                    <option>Name</option>
+                    <option value="UserName">User</option>
+                    <option value="Description">Desc</option>
+                </select>
+
+                <input name="searchModel.search" class="text-input" style="position: absolute; top: 50%; left: 32%; transform: translate(-50%, -50%)" />
+
+                <select name="searchModel.organ" style="position: absolute; top: 50%; left: 65%; transform: translate(-50%, -50%)">
+                    <option>Most Recent</option>
+                    <option>Least Recent</option>
+                    <option>Most Urgent</option>
+                    <option>Least Urgent</option>
+                    <option>Most Progress</option>
+                    <option>Least Progress</option>
+                </select>
+
+                <input type="hidden" name="userModel.UserName" value="@(Model.userModel.UserName)" />
+
+                <input type="submit" value="Search" class="submit-button" style="position: absolute; top: 50%; width: 10%; height: 60%; left: 88%; transform: translate(-50%, -50%)" />
+                
+            </form>
+            <div id="scroll-container">
+                @foreach (var ticket in Model.ticketList)
+                {
+                    <form class="ticket-info">
+
+                        <input type="hidden" name="ticketModel.Name" value="@(ticket.Name)" />
+                        <input type="hidden" name="ticketModel.Description" value="@(ticket.Description)" />
+                        <input type="hidden" name="ticketModel.Priority" value="@(ticket.Priority)" />
+                        <input type="hidden" name="ticketModel.Type" value="@(ticket.Type)" />
+                        <input type="hidden" name="ticketModel.Progress" value="@(ticket.Progress)" />
+                        <input type="hidden" name="ticketModel.UserName" value="@(ticket.UserName)" />
+                        <input type="hidden" name="ticketModel.ProjectTitle" value="@(ticket.ProjectTitle)" />
+                        <input type="hidden" name="ticketModel.Date" value="@(ticket.Date)" />
+                        <input type="hidden" name="userModel.UserName" value="@(Model.userModel.UserName)" />
+
+                        <div class="attribute-box" style="left: 2%; top: 15%">@(ticket.Name)</div>
+                        <div class="attribute-box" style="left: 2%; top: 35%">@(ticket.Priority)</div>
+                        <div class="attribute-box" style="left: 19%; top: -35%">@(ticket.Progress)</div>
+                        <div class="attribute-box" style="left: 19%; top: -15%">@(ticket.Type)</div>
+
+                        <div class="attribute-box" style="left: 36%; top: -85%; height: 70%; width: 35%">@(ticket.Description)</div>
+
+                        <div class="attribute-box" style="float: right; right: 12%; top: -155%">@(ticket.UserName)</div>
+                        <div class="attribute-box" style="float: right; left: 3%; top: -110%">@(ticket.Date)</div>
+
+                        <button class="detail-buttons" type="submit" style="background-color: darkorange; float: right; line-height: 100%; position: relative; left: 25%; top: -155%" asp-action="TicketDetails">Edit</button>
+                        <button class="detail-buttons" type="submit" style="background-color: forestgreen; float: right; line-height: 100%; position: relative; left: 30%; top: -110%" asp-action="GoToConfirmFinishPage">Finish</button>
+                    </form>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    <div id="side-panel">
+        <h1 class="page-header">Ticket View</h1>
+        <p style="position: absolute; top: -12%; left: 5%">Lets view tickets, @(Model.userModel.UserName)</p>
+        <form asp-action="Index">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">Home</button>
+        </form>
+        <form asp-action="ProjectBuild">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">Project Build</button>
+        </form>
+        <form asp-action="TicketView">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">View Tickets</button>
+        </form>
+        <form asp-action="ProjectView">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">View Projects</button>
+        </form>
+    </div>
+
+</body>
+</html>

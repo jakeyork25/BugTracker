@@ -1,0 +1,289 @@
+﻿@model BugTracker_Demo.Models.RegisterModel
+
+<style>
+    #body {
+        height: 100%;
+        width: 100%;
+        background-color: white;
+    }
+
+    .main-container {
+        width: 50%;
+        height: 90%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        filter: drop-shadow(0.6rem 0.6rem 1rem black);
+    }
+
+    .logo-box {
+        width: 54%;
+        height: 100%;
+        position: absolute;
+        background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRAdhgf0b-TF_N0pwlZiPquIlV1bOG_8Zl2cBMA43Gj5cLBjspZFBjSRmLOwvVPOFrdv8&usqp=CAU);
+        background-position: center;
+        background-size: cover;
+        z-index: 2;
+    }
+
+    .logo-slide-left{
+        animation: logo-left 2s;
+        animation-fill-mode: forwards;
+    }
+    .logo-slide-right{
+        animation: logo-right 2s;
+        animation-fill-mode: forwards;
+    }
+    .login-form-fade{
+        animation: login-form-fade 2s;
+        animation-fill-mode: forwards;
+    }
+    .login-form-appear{
+        animation: login-form-appear 2s;
+        animation-fill-mode: forwards;
+    }
+    .register-form-appear{
+        animation: register-form-appear 2s;
+        animation-fill-mode: forwards;
+    }
+    .register-form-fade{
+        animation: register-form-fade 2s;
+        animation-fill-mode: forwards;
+    }
+
+    @@keyframes logo-left{
+        0% { left: 46%; }
+        100% {
+            left: 0%;
+        }
+    }
+    @@keyframes logo-right{
+        from{ left: 0%; }
+        to {
+            left: 46%;
+  
+        }
+    }
+    @@keyframes register-form-appear{
+        0%{ left: 0%; opacity: 0; }
+        30%{ opacity: 0; }
+        35%{ opacity: 1; }
+        100%{ left: 54%; opacity: 1; }
+    }
+    @@keyframes register-form-fade{
+        0%{ left: 54%; opacity: 1; }
+        30%{ opacity: 1; }
+        35%{ opacity: 0; }
+        100% { left: 0%; opacity: 0; }
+    }
+    @@keyframes login-form-appear{
+        0%{ left: 54%; opacity: 0; }
+        30%{ opacity: 0; }
+        35%{ opacity: 1; }
+        100%{ left: 0%; opacity: 1; }
+    }
+    @@keyframes login-form-fade{
+        0%{ left: 0%; opacity: 1; }
+        30%{ opacity: 1; }
+        35%{ opacity: 0; }
+        100%{  left: 54%; opacity: 0; }
+    }
+
+    .hex:before {
+        content: " ";
+        width: 0;
+        height: 0;
+        border-bottom: 60px solid #073b4c;
+        border-left: 104px solid transparent;
+        border-right: 104px solid transparent;
+        position: absolute;
+        top: -59px;
+    }
+
+    .hex {
+        margin-top: 60px;
+        width: 208px;
+        height: 120px;
+        background-color: #073b4c;
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        transform: translate(-50%, -50%);
+    }
+
+        .hex:after {
+            content: "";
+            width: 0;
+            position: absolute;
+            bottom: -59px;
+            border-top: 60px solid #073b4c;
+            border-left: 104px solid transparent;
+            border-right: 104px solid transparent;
+        }
+
+    .form-box {
+        width: 46%;
+        height: 100%;
+        position: absolute;
+        left: 54%;
+        background-color: #073b4c;
+    }
+
+    h1 {
+        position: absolute;
+        left: 50%;
+        top: 5%;
+        transform: translateX(-50%);
+        color: rgb(245, 245, 245);
+        font-family: Courier New, Courier, monospace;
+    }
+
+    .input-tags {
+        width: 80%;
+        height: 4%;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: left;
+        color: white;
+        background-color: transparent;
+        position: absolute;
+        font-family: Courier New, Courier, monospace;
+        font-size: 12px;
+    }
+
+    .input-box {
+        width: 80%;
+        height: 5%;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 1px solid white;
+        background-color: transparent;
+        color: white;
+        font-family: Courier New, Courier, monospace;
+    }
+
+        .input-box:focus {
+            border: none;
+            outline: none;
+            border: 1px solid white;
+        }
+
+
+    .submit-button {
+        border: none;
+        outline: none;
+        width: 50%;
+        height: 7%;
+        background-color: #06d6a0;
+        color: white;
+        position: absolute;
+        top: 86%;
+        left: 50%;
+        transform: translateX(-50%);
+        animation-duration: 0.5s;
+        animation-name: unfocus-button;
+        animation-fill-mode: forwards;
+        font-family: Courier New, Courier, monospace;
+    }
+
+    @@keyframes unfocus-button {
+        from {
+            border-radius: 12px;
+            color: black;
+        }
+
+        to {
+            border-radius: 0px;
+            color: white;
+        }
+    }
+
+    .submit-button:hover {
+        border: none;
+        outline: none;
+        animation-duration: 1s;
+        animation-name: focus-button;
+        animation-fill-mode: forwards;
+    }
+
+    @@keyframes focus-button {
+        from {
+            border-radius: 0px;
+            color: white;
+        }
+
+        to {
+            border-radius: 12px;
+            color: black;
+        }
+    }
+
+    a {
+        position: absolute;
+        left: 50%;
+        top: 95%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 12px;
+    }
+</style>
+
+<html>
+<body style="background-color: rgb(105 187 190) ">
+    <div id="body">
+        <div class="main-container" id="login-container">
+            <div class="logo-box" id="login-logo" style="left: 46%">
+                <div class="hex"></div>
+            </div>
+            <form class="form-box" id="login-form" style="left: 0%" asp-action="LoginToProgram">
+                <h1>SIGN IN</h1>
+                <p class="input-tags" style="top: 33%">EMAIL</p>
+                <input asp-for="EmailAddress" class="input-box" style="top: 36%" />
+                <p class="input-tags" style="top: 46%">USERNAME</p>
+                <input asp-for="DesiredUserName" class="input-box" style="top: 49%" />
+                <p class="input-tags" style="top: 59%">PASSWORD</p>
+                <input asp-for="DesiredPassword" class="input-box" style="top: 62%" />
+                <button class="submit-button" type="submit">Login</button>
+                <a id="login-link" href="#">Register here!</a>
+            </form>
+            <form class="form-box" id="register-form" style="opacity: 0" asp-action="CreateAccount">
+                <h1>REGISTER</h1>
+                <p class="input-tags" style="top: 20%">NAME</p>
+                <input name="FullName" asp-for="FullName" class="input-box" style="top: 23%" />
+                <p class="input-tags" style="top: 33%">EMAIL</p>
+                <input name="EmailAddress" class="input-box" style="top: 36%" />
+                <p class="input-tags" style="top: 46%">USERNAME</p>
+                <input asp-for="DesiredUserName" class="input-box" style="top: 49%" />
+                <p class="input-tags" style="top: 59%">PASSWORD</p>
+                <input asp-for="DesiredPassword" class="input-box" style="top: 62%" />
+                <p class="input-tags" style="top: 72%">CONFIRM PASSWORD</p>
+                <input asp-for="ConfirmPassword" class="input-box" style="top: 75%" />
+                <button class="submit-button" type="submit">Create Account</button>
+                <a id="register-link" href="#">Login here!</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#login-link").click(function () {
+            $("#login-logo").removeClass('logo-slide-right').addClass('logo-slide-left');
+            $('#login-form').removeClass('login-form-appear').addClass('login-form-fade');
+            $('#register-form').removeClass('register-form-fade').addClass('register-form-appear');
+        });
+        $('#register-link').click(function () {
+            $('#login-logo').removeClass('logo-slide-left').addClass('logo-slide-right');
+            $('#login-form').removeClass('login-form-fade').addClass('login-form-appear');
+            $('#register-form').removeClass('register-form-appear').addClass('register-form-fade');
+            setTimeout(function () {
+                location.reload();
+            }, 2000);           
+        });
+
+    });
+</script>

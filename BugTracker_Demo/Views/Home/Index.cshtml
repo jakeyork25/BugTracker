@@ -1,0 +1,259 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model TicketViewModel
+
+    <style>
+        #main-container{
+            height: 150%;
+        }
+
+        .full-container {
+            display: inline-block;
+            vertical-align: middle;
+            position: absolute;
+            width: 35%;
+            height: 420px;
+            filter: drop-shadow(0.6rem 0.6rem .4rem black);
+        }
+
+        .chart-div {
+            width: 100%;
+            height: 85%;
+            background-color: #073b4c;            
+            border: 1px solid black;
+            position: relative;
+        }
+
+        .chart-div-filter {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backdrop-filter: saturate(60%) brightness(140%);
+        }
+
+        .ticket-column{ 
+            width: 20%;
+            float: left;
+            position: absolute;
+            bottom: 0px;
+            border-radius: 10px 10px 0px 0px;
+        }
+
+        .ticket-column:hover {
+            filter: brightness(120%);
+        }
+
+        .chart-label {
+            width: 100%;
+            height: 15%;
+            background-color: #073b4c;
+            border: 1px solid black;
+            border-top-width: 0px;
+            position: relative;
+        }
+
+        .ticket-label {
+            width: 20%;
+            float: left;
+            position: absolute;
+            top: 0px;
+            text-align: center;
+        }
+
+        .ticket-column .column-info-text{
+            visibility: hidden;
+            width: 100%;
+            height: 50px;
+            padding-top: 100%;
+            background-color: darkslategrey;
+            color: lightskyblue;
+            text-align: center;
+            border-radius: 8px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 100%;
+            margin-bottom: 10px;
+
+        }
+
+        .ticket-column:hover .column-info-text {
+            visibility: visible;
+        }
+
+        p {
+            font-family: Courier New, Courier, monospace;
+            color: white;
+            font-size: 14px;
+        }
+
+    </style>
+
+
+<html>
+<body>
+    <div id="main-container">
+        @{
+            int numOfUnimportant = 0;
+            int numOfMedium = 0;
+            int numOfImportant = 0;
+            int numOfUrgent = 0;
+
+            foreach (var ticket in Model.ticketList)
+            {
+                if (ticket.Priority.Equals("Unimportant")) { numOfUnimportant += 1; }
+                else if (ticket.Priority.Equals("Medium")) { numOfMedium += 1; }
+                else if (ticket.Priority.Equals("Important")) { numOfImportant += 1; }
+                else { numOfUrgent += 1; }
+            }
+        }
+
+        @{
+            int numOfBugs = 0;
+            int numOfPolish = 0;
+            int numOfNew = 0;
+            int numOfFinish = 0;
+
+            foreach (var ticket in Model.ticketList)
+            {
+                if (ticket.Type.Equals("Bug/Error")) { numOfBugs += 1; }
+                else if (ticket.Type.Equals("Polish Feature")) { numOfPolish += 1; }
+                else if (ticket.Type.Equals("New Feature")) { numOfNew += 1; }
+                else { numOfFinish += 1; }
+            }
+        }
+
+        @{
+            int numOfStarting = 0;
+            int numOfUnderhalf = 0;
+            int numOfOverhalf = 0;
+            int numOfNear = 0;
+
+            foreach (var ticket in Model.ticketList)
+            {
+                if (ticket.Progress.Equals("New")) { numOfStarting += 1; }
+                else if (ticket.Progress.Equals("Under Half")) { numOfUnderhalf += 1; }
+                else if (ticket.Progress.Equals("Over Half")) { numOfOverhalf += 1; }
+                else { numOfNear += 1; }
+            }
+        }
+
+        @{
+            int numOfFirst = 0;
+            int numOfSecond = 0;
+            int numOfThird = 0;
+            int numOfFourth = 0;
+
+            foreach (var ticket in Model.ticketList)
+            {
+                if (ticket.UserName.Equals("jakeyork24")) { numOfFirst += 1; }
+                else if (ticket.UserName.Equals("user2")) { numOfSecond += 1; }
+                else if (ticket.UserName.Equals("user3")) { numOfThird += 1; }
+                else { numOfFourth += 1; }
+            }
+        }
+
+        <div class="full-container" style="left: 12%; top: 5%">
+            <form class="chart-div" asp-action="ViewPriorityTickets">
+                <div class="chart-div-filter">
+                    @{var priorityHeight = 20;}
+                    <input type="hidden" name="userModel.UserName" value="@(Model.userModel.UserName)" />
+                    <button type="submit" name="ticketColumnModel.search" value="Unimportant" class="ticket-column" style="left: 4%; height: @((numOfUnimportant * priorityHeight) + "%"); background-color: rgb(255 175 175); border: 1px solid black; border-bottom-width: 0px;"><div class="column-info-text">@(numOfUnimportant)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Medium" class="ticket-column" style="left: 28%; height: @((numOfMedium * priorityHeight)+"%"); background-color: rgb(255, 125, 125); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfMedium)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Important" class="ticket-column" style="left: 52%; height: @((numOfImportant * priorityHeight)+"%"); background-color: rgb(255, 75, 75); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfImportant)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Urgent" class="ticket-column" style="left: 76%; height: @((numOfUrgent * priorityHeight)+"%"); background-color: rgb(255, 50, 50); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfUrgent)</div></button>
+                </div>
+            </form>
+            <div class="chart-label">
+                <div class="ticket-label" style="left: 4%"> <p>Unimportant</p> </div>
+                <div class="ticket-label" style="left: 28%"> <p>Medium</p> </div>
+                <div class="ticket-label" style="left: 52%"> <p>Important</p> </div>
+                <div class="ticket-label" style="left: 76%"> <p>Urgent</p> </div>
+            </div>
+        </div>
+        <div class="full-container" style="left: 53%; top: 5%">
+            <form class="chart-div" asp-action="ViewTypeTickets">
+                <div class="chart-div-filter">
+                    @{ var typeHeight = 20;}
+                    <input type="hidden" name="userModel.UserName" value="@(Model.userModel.UserName)" />
+                    <button type="submit" name="ticketColumnModel.search" value="Bug/Error" class="ticket-column" style="left: 4%; height: @(numOfBugs * typeHeight +"%"); background-color: rgb(240, 130, 0); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfBugs)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Polish Feature" class="ticket-column" style="left: 28%; height: @(numOfPolish * typeHeight +"%"); background-color: rgb(240, 160, 0); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfPolish)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="New Feature" class="ticket-column" style="left: 52%; height: @(numOfNew* typeHeight +"%"); background-color: rgb(240, 190, 0); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfNew)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Finish Feature" class="ticket-column" style="left: 76%; height: @(numOfFinish * typeHeight +"%"); background-color: rgb(240, 220, 0); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfFinish)</div></button>
+                </div>
+            </form>
+            <div class="chart-label" style="float: right">
+                <div class="ticket-label" style="left: 4%"> <p>Bugs/Errors</p> </div>
+                <div class="ticket-label" style="left: 28%"> <p>Polish Features</p> </div>
+                <div class="ticket-label" style="left: 52%"> <p>New Features</p> </div>
+                <div class="ticket-label" style="left: 76%"> <p>Finish Features</p> </div>
+            </div>
+        </div>
+        <div class="full-container" style="left: 12%; top: 55%">
+            <form class="chart-div" asp-action="ViewProgressTickets">
+                @{ var progressHeight = 20;}
+                <div class="chart-div-filter">
+                    <input type="hidden" name="userModel.UserName" value="@(Model.userModel.UserName)" />
+                    <button type="submit" name="ticketColumnModel.search" value="New" class="ticket-column" style="left: 4%; height: @(numOfStarting * progressHeight +"%"); background-color: rgb(0,100,100); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfStarting)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Under Half" class="ticket-column" style="left: 28%; height: @(numOfUnderhalf * progressHeight +"%"); background-color: rgb(0,150,100); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfUnderhalf)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Over Half" class="ticket-column" style="left: 52%; height: @(numOfOverhalf * progressHeight +"%"); background-color: rgb(0,200,100); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfOverhalf)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Near Complete" class="ticket-column" style="left: 76%; height: @(numOfNear * progressHeight +"%"); background-color: rgb(0,250,100); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfNear)</div></button>
+                </div>
+            </form>
+            <div class="chart-label" style="float: right">
+                <div class="ticket-label" style="left: 4%"> <p>Starting</p> </div>
+                <div class="ticket-label" style="left: 28%"> <p>Under Half</p> </div>
+                <div class="ticket-label" style="left: 52%"> <p>Over Half</p> </div>
+                <div class="ticket-label" style="left: 76%"> <p>Near Complete</p> </div>
+            </div>
+        </div>
+        <div class="full-container" style="left: 53%; top: 55%">
+            <form class="chart-div" asp-action="ViewUsernameTickets">
+                @{ var userHeight = 20;}
+                <div class="chart-div-filter">
+                    <input type="hidden" name="userModel.UserName" value="@(Model.userModel.UserName)" />
+                    <button type="submit" name="ticketColumnModel.search" value="Me" class="ticket-column" style="left: 4%;  height: @(numOfFirst * userHeight +"%"); background-color: rgb( @(numOfFirst * (1.25) + 125),0, @(numOfFirst * (1.25) + 125) ); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfFirst)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Ame" class="ticket-column" style="left: 28%; height: @(numOfSecond * userHeight +"%"); background-color: rgb( @(numOfSecond * (1.25) + 125),0, @(numOfSecond * (1.25) + 125) ); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfSecond)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Gura" class="ticket-column" style="left: 52%; height: @(numOfThird * userHeight +"%"); background-color: rgb( @(numOfThird * (1.25) + 125),0, @(numOfThird * (1.25) + 125) ); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfThird)</div></button>
+                    <button type="submit" name="ticketColumnModel.search" value="Calli" class="ticket-column" style="left: 76%; height: @(numOfFourth * userHeight+"%"); background-color: rgb( @(numOfFourth * (1.25) + 125),0, @(numOfFourth * (1.25) + 125) ); border: 1px solid black; border-bottom-width: 0px"><div class="column-info-text">@(numOfFourth)</div></button>
+                </div>
+            </form>
+            <div class="chart-label" style="float: right">
+                <div class="ticket-label" style="left: 4%"> <p>Me</p> </div>
+                <div class="ticket-label" style="left: 28%"> <p>Ame</p> </div>
+                <div class="ticket-label" style="left: 52%"> <p>Gura</p> </div>
+                <div class="ticket-label" style="left: 76%"> <p>Calli</p> </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="side-panel">
+        <h1 class="page-header">Bug Tracker</h1>
+        <p style="position: absolute; top: -5%; left: 5%; ">Welcome, @(Model.userModel.UserName)</p>
+        <form asp-action="Index">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">Home</button>
+        </form>
+        <form asp-action="ProjectBuild">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">Project Build</button>
+        </form>
+        <form asp-action="TicketView">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">View Tickets</button>
+        </form>
+        <form asp-action="ProjectView">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">View Projects</button>
+        </form>
+    </div>
+
+
+</body>
+</html>
+
+

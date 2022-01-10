@@ -1,0 +1,57 @@
+﻿@model LoginModel
+
+<style>
+    #main-container{
+        width: 30%;
+        height: 70%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        border: 1px solid black;
+        border-radius: 12px;
+        background-color: lightblue;
+        filter: saturate(50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .input-box{
+        width: 80%;
+        height: 10%;
+        position: absolute;
+        text-align: center; 
+        transform: translate(-50%, -50%);
+        left: 50%;
+    }
+
+    #login-button{
+        position: absolute;
+        width: 25%;
+        height: 8%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid blue;
+        border-radius: 4px;
+        background-color: dodgerblue;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+<html>
+<body style="background-image: url('https://www.teahub.io/photos/full/253-2536947_forest-path-in-autumn.jpg') ">
+    <div id="main-container"> 
+    <form asp-action="LoginToProgram">
+        <div class="input-box" style="top: 20%">
+            <label style="position: absolute; top: 50%; left: 10%; transform: translateY(-50%)">UserName</label>
+            <input asp-for="UserName" style="position: absolute; left: 40%; top: 50%; transform: translateY(-50%)" />
+        </div>
+        <div class="input-box" style="top: 40%">
+            <label style="position: absolute; top: 50%; left: 10%; transform: translateY(-50%)">Password</label>
+            <input asp-for="Password" style="position: absolute; left: 40%; top: 50%; transform: translateY(-50%)" />
+        </div>
+        <button type="submit" id="login-button" style="top: 55%">Sign In</button>
+    </form>
+    <a asp-action="Register" style="position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%)">Create an account here</a>
+    </div>
+</body>
+</html>

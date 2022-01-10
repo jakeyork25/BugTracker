@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Ticket Build Page";
+}
+
+@model TicketBuildModel
+
+<style>
+    .form-conatiner {
+        width: 60%;
+        height: 80%;
+        background-color: #073b4c;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        filter: drop-shadow(0.6rem 0.6rem .4rem black);
+    }
+
+    select {
+        border: none;
+        outline: none;
+        border: 1px solid white;
+        font-family: Courier New, Courier, monospace;
+        color: white;
+        background-color: transparent;
+    }
+
+        select option {
+            font-family: Courier New, Courier, monospace;
+            color: white;
+            background-color: #073b4c;
+        }
+
+</style>
+
+<html>
+<body>
+    <div id="main-container">
+        <form class="form-conatiner" asp-action="Click">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" style="position: absolute; width: 40%; height: 15%; margin-top: 5%; margin-left: 5%">
+                <label asp-for="ticketModel.Name" class="control-label">Name</label>
+                <input asp-for="ticketModel.Name" name="ticketModel.Name" style="position: absolute; left: 0%; top: 40%;" />
+                <span asp-validation-for="ticketModel.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="position: absolute; width: 40%; height: 70%; margin-top: 20%; margin-left: 5%">
+                <label asp-for="ticketModel.Description" class="control-label">Description</label>
+                <textarea asp-for="ticketModel.Description" name="ticketModel.Description" style="resize: none; width: 100%; height: 80%;"></textarea>
+                <span asp-validation-for="ticketModel.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="position: absolute; width: 40%; height: 5%; margin-top: 10%; margin-left: 55%">
+                <label asp-for="ticketModel.Priority" class="control-label" style="position: absolute; margin-left: 5%">Priority</label>
+                <select asp-for="ticketModel.Priority" name="ticketModel.Priority" style="position: absolute; margin-left: 40%">
+                    <option value="Unimportant">Unimportant</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Important">Important</option>
+                    <option value="Urgent">Urgent</option>
+                </select>
+                <span asp-validation-for="ticketModel.Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="position: absolute; width: 40%; height: 5%; margin-top: 26%; margin-left: 55%">
+                <label asp-for="ticketModel.Type" class="control-label" style="position: absolute; margin-left: 5%">Type</label>
+                <select asp-for="ticketModel.Type" name="ticketModel.Type" style="position: absolute; margin-left: 40%">
+                    <option value="Bug/Error">Bug/Error</option>
+                    <option value="Polish Feature">Polish Feature</option>
+                    <option value="New Feature">New Feature</option>
+                    <option value="Finish Feature">Finish Feature</option>
+                </select>
+                <span asp-validation-for="ticketModel.Type" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="position: absolute; width: 40%; height: 5%; margin-top: 42%; margin-left: 55%">
+                <label asp-for="ticketModel.Progress" class="control-label" style="position: absolute; margin-left: 5%">Progress</label>
+                <select asp-for="ticketModel.Progress" name="ticketModel.Progress" style="position: absolute; margin-left: 40%;">
+                    <option value="New">Starting</option>
+                    <option value="Under Half">Under Half</option>
+                    <option value="Over Half">Over Half</option>
+                    <option value="Near Complete">Near Complete</option>
+                </select>
+                <span asp-validation-for="ticketModel.Progress" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="ticketModel.UserName" name="ticketModel.UserName" value="@(Model.userModel.UserName)" />
+            <input type="hidden" name="ticketModel.ProjectTitle" value="@(Model.ticketModel.ProjectTitle)" />
+            <input type="hidden" name="userModel.UserName" value="@(Model.userModel.UserName)" />
+            <input type="submit" value="Create Ticket" class="submit-button" style="width: 25%; left: 75%; top: 75%; transform: translate(-50%, -50%);" />
+        </form>
+
+
+        <div id="side-panel">
+            <h1 class="page-header">Ticket Creation</h1>
+            <p style="position: absolute; top: -7%; left: 5%; ">Welcome, @(Model.userModel.UserName)</p>
+            <form asp-action="Index">
+                <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+                <button type="submit">Home</button>
+            </form>
+            <form asp-action="ProjectBuild">
+                <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+                <button type="submit">Project Build</button>
+            </form>
+            <form asp-action="TicketView">
+                <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+                <button type="submit">View Tickets</button>
+            </form>
+            <form asp-action="ProjectView">
+                <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+                <button type="submit">View Projects</button>
+            </form>
+        </div>
+
+
+    </div>
+</body>
+</html>
+

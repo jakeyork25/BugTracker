@@ -1,0 +1,58 @@
+﻿@model ProjectBuildModel
+
+<style>
+    #main-form {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 80%;
+        width: 50%;
+        position: absolute;
+        background-color: #073b4c;
+        filter: drop-shadow(0.6rem 0.6rem .8rem black);
+    }
+</style>
+
+<html>
+<body>
+    <div id="main-container">
+        <form asp-action="CreateProject" id="main-form">
+            <div class="form-group" style="position: absolute; width: 60%; height: 15%; margin-top: 3%; margin-left: 50%; transform: translateX(-50%)">
+                <label asp-for="projectModel.Title" class="control-label" style="margin-left: 50%; transform: translateX(-50%); color: white">Title</label>
+                <input asp-for="projectModel.Title" name="projectModel.Title" style="width: 100%"/>
+                <span asp-validation-for="projectModel.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="position: absolute; width: 80%; height: 55%; margin-top: 17%; margin-left: 50%; transform: translateX(-50%)">
+                <label asp-for="projectModel.Description" class="control-label" style="margin-left: 50%; transform: translateX(-50%); color: white">Description</label>
+                <textarea asp-for="projectModel.Description" name="projectModel.Description" style="resize: none; width: 100%; height: 85%; font-family: Courier New, Courier, monospace; "></textarea>
+                <span asp-validation-for="projectModel.Description" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="projectModel.UserName" name="projectModel.UserName" value="@(Model.userModel.UserName)" />
+            <input type="hidden" asp-for="userModel.UserName" name="userModel.UserName" value="@(Model.userModel.UserName)" />
+            <input type="submit" value="Create Project" class="submit-button" />
+        </form>
+    </div>
+
+    <div id="side-panel">
+        <h1 class="page-header">Project Creation</h1>
+        <p style="position: absolute; left: 5%; top: -12%">Create a project, @(Model.userModel.UserName)</p>
+        <form asp-action="Index">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">Home</button>
+        </form>
+        <form asp-action="ProjectBuild">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">Project Build</button>
+        </form>
+        <form asp-action="TicketView">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">View Tickets</button>
+        </form>
+        <form asp-action="ProjectView">
+            <input type="hidden" asp-for="userModel.UserName" name="UserName" value="@(Model.userModel.UserName)" />
+            <button type="submit">View Projects</button>
+        </form>
+    </div>
+
+</body>
+</html>

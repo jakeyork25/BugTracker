@@ -1,0 +1,166 @@
+﻿@model List<ProjectViewModel>
+
+<style>
+    #main-container{
+       position: fixed;
+       overflow-y: auto;
+    }
+
+    .project-container {
+        width: 90%;
+        height: 50%;
+        background-color: #073b4c;
+        margin-left: 50%;
+        transform: translateX(-50%);
+        position: relative;
+        margin-top: 5%;
+        scrollbar-track-color: darkslategray;
+        filter: drop-shadow(0.6rem 0.6rem .4rem black);
+    }
+
+    .attribute-box {
+        width: 21%;
+        height: 8%;
+        border: 1px solid white;
+        background-color: transparent;
+        text-align: center;
+        position: absolute;
+        color: white;
+        font-family: Courier New, Courier, monospace;
+    }
+
+    .description-box {
+        width: 45%;
+        height: 70%;
+        left: 2%;
+        top: 15%;
+        border: 1px solid white;
+        background-color: transparent;
+        position: absolute;
+        overflow-y: auto;
+        text-align: center;
+        padding-left: 4%;
+        padding-right: 4%;
+        font-family: Courier New, Courier, monospace;
+        color: white;
+    }
+
+    .ticket-area {
+        width: 45%;
+        height: 80%;
+        border: 1px solid black;
+        position: fixed;
+        overflow-y: auto;
+        left: 53%;
+        top: 5%;
+        padding-bottom: 5%;
+        background-color: #034960;
+    }
+    .ticket-area::-webkit-scrollbar{
+        width: 10px;
+    }
+    .ticket-area::-webkit-scrollbar-thumb{
+        background: black;
+    }
+
+    .ticket-container {
+        width: 95%;
+        height: 45%;
+        position: relative;
+        margin-top: 5%;
+        margin-left: 2.5%;
+        border: 1px solid black;
+        background-color: #073b4c;
+    }
+
+    .ticket-stat-box{
+        padding-right: 3%;
+        height: 25%;
+        border-bottom: 1px solid black;
+        position: absolute;
+        text-align: left;
+        color: white;
+    }
+</style>
+
+<html>
+<body>
+    <div id="main-container">
+        @foreach (var project in Model)
+        {
+            <div class="project-container">
+                <div class="attribute-box" style="left: 2%; top: 5%">@project.projectModel.Title</div>
+                <div class="attribute-box" style="left: 26%; top: 5%">@project.projectModel.UserName</div>
+                <div class="description-box">@project.projectModel.Description</div>
+
+                <form asp-action="ConfirmProjectFinish" style="position: absolute; left: 25%; top: 84%; width: 18%; height: 10%; transform: translate(-50%, -50%)">
+                    <input type="hidden" name="ProjectModel.Title" value="@(project.projectModel.Title)" />
+                    <input type="hidden" name="ProjectModel.Description" value="@(project.projectModel.Description)" />
+                    <input type="hidden" name="ProjectModel.UserName" value="@(project.projectModel.UserName)" />
+                    <input type="hidden" name="UserModel.UserName" value="@(project.userModel.UserName)" />
+                    <button class="submit-button" style="height: 100%; width: 100%" type="submit" name="Confirmed" value="true">Finish Project</button>
+                </form>
+
+                <div class="ticket-area">
+                    <div class="ticket-area-filter"></div>
+                    @if (project.ticketList.Count == 0)
+                    {
+                        <p style="border: 1px solid white; position: absolute; width: 80%; left: 50%; top: 15%; transform: translateX(-50%); color: white; font-family: Courier New, Courier, monospace; text-align: center">There are no tickets for this project yet.</p>
+                    }
+                    else
+                    {
+                        @foreach (var ticket in project.ticketList)
+                        {
+                            <div class="ticket-container">
+                                <label style="position: absolute; left: 2%; top: 20%; transform: translateY(-50%)">Name:</label>
+                                <div class="ticket-stat-box" style="left: 15%; top: 20%; transform: translateY(-50%)">@ticket.Name</div>
+
+                                <label style="position: absolute; left: 2%; top: 50%; transform: translateY(-50%)">User:</label>
+                                <div class="ticket-stat-box" style="left: 15%; top: 50%; transform: translateY(-50%)">@ticket.UserName</div>
+
+                                <label style="position: absolute; left: 2%; top: 80%; transform: translateY(-50%)">Date:</label>
+                                <div class="ticket-stat-box" style="left: 15%; top: 80%; transform: translateY(-50%)">@(ticket.Date.ToShortDateString())</div>
+                            </div>
+                        }
+
+                    }
+
+                </div>
+
+                <form asp-action="TicketBuild" style="position: absolute; left: 75%; top: 84%; height: 10%; width: 18%; transform: translate(-50%, -50%)">
+                    <input type="hidden" name="userModel.UserName" value="@(project.userModel.UserName)" />
+                    <input type="hidden" name="ticketModel.ProjectTitle" value="@(project.projectModel.Title)" />
+                    <button class="submit-button" style="width: 100%; height: 100%" type="submit">Create a Ticket</button>
+                </form>
+
+            </div>
+        }
+    </div>
+
+    @{ 
+        var sideModel = Model.First();
+    }
+
+    <div id="side-panel">
+        <h1 class="page-header">Project View</h1>
+        <p style="position: absolute; left: 5%; top: -12%">Look at these projects, @(sideModel.userModel.UserName)</p>
+        <form asp-action="Index">
+            <input type="hidden" name="UserName" value="@(sideModel.userModel.UserName)" />
+            <button class="side-link" type="submit">Home</button>
+        </form>
+        <form asp-action="ProjectBuild">
+            <input type="hidden" name="UserName" value="@(sideModel.userModel.UserName)" />
+            <button class="side-link" type="submit">Project Build</button>
+        </form>
+        <form asp-action="TicketView">
+            <input type="hidden" name="userModel.UserName" value="@(sideModel.userModel.UserName)" />
+            <button class="side-link" type="submit">View Tickets</button>
+        </form>
+        <form asp-action="ProjectView">
+            <input type="hidden" name="userModel.UserName" value="@(sideModel.userModel.UserName)" />
+            <button class="side-link" type="submit">View Projects</button>
+        </form>
+    </div>
+
+</body>
+</html>
